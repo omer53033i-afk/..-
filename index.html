@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إشعار بنكك التجريبي</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; width: 90%; max-width: 350px; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; border-top: 8px solid #006847; }
+        .logo { width: 70px; margin-bottom: 10px; }
+        .status { color: #006847; font-weight: bold; font-size: 1.2rem; }
+        .amount { font-size: 2.2rem; font-weight: 800; margin: 15px 0; color: #333; }
+        .details { text-align: right; font-size: 0.9rem; color: #666; line-height: 1.8; }
+        .footer-note { font-size: 11px; color: red; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
+        .btn { background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/1/1e/Bank_of_Khartoum_logo.svg/200px-Bank_of_Khartoum_logo.svg.png" class="logo">
+    <div class="status">تمت عملية التحويل بنجاح</div>
+    <div class="amount" id="disp_amount">50,000.00 SDG</div>
+    
+    <div class="details">
+        <div>• من: حساب ****1234</div>
+        <div>• التاريخ: <span id="disp_date"></span></div>
+        <div>• رقم المرجع: <span id="ref_num"></span></div>
+    </div>
+
+    <div class="footer-note">⚠️ هذا إشعار تجريبي للمحاكاة فقط - تختفي هذه الصفحة تلقائياً</div>
+    
+    <button class="btn" onclick="sendWhatsApp()">إرسال هذا الإشعار لصديق ✅</button>
+</div>
+
+<script>
+    // توليد بيانات عشوائية
+    const urlParams = new URLSearchParams(window.location.search);
+    const money = urlParams.get('m') || '50,000';
+    document.getElementById('disp_amount').innerText = money + ' SDG';
+    document.getElementById('disp_date').innerText = new Date().toLocaleString('ar-SD');
+    document.getElementById('ref_num').innerText = Math.floor(Math.random() * 1000000000);
+
+    function sendWhatsApp() {
+        const msg = encodeURIComponent(`*إشعار بنكك (تجريبي)*\nتم تحويل مبلغ: ${money} SDG\nالتاريخ: ${new Date().toLocaleString('ar-SD')}\n\nعرض الإشعار من هنا:\n${window.location.href}`);
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+
+    // الإخفاء بعد 24 ساعة (من وقت الفتح)
+    setTimeout(() => {
+        document.getElementById('mainCard').innerHTML = "<h2>انتهت صلاحية هذا الإشعار المؤقت</h2>";
+    }, 86400000);
+</script>
+</body>
+</html>
